@@ -19,13 +19,14 @@ export default function ContactCard() {
     e.preventDefault();
     setStatus('Sending...');
 
-    const res = await fetch('/api/contact', {
+    const res = await fetch('/api/send-email', {
       method: 'POST',
       body: JSON.stringify(formData),
       headers: {
         'Content-Type': 'application/json'
       }
     });
+    
 
     if (res.ok) {
       setStatus('Message sent successfully!');

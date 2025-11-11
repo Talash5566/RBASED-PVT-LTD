@@ -75,7 +75,7 @@ const handleCheckboxChange = (name: keyof typeof formData, checked: boolean | st
     
     console.log('Form submitted:', submissionData);
     
-    const res = await fetch('/api/event-registration', {
+    const res = await fetch('/api/event-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(submissionData),

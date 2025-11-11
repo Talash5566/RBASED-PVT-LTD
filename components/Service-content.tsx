@@ -19,7 +19,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Hydrology</h2>
-                        <p className="text-xl font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-justify text-xl font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
                         Hydrological modeling to quantify the distribution of water coming into the basin into different components like runoff and ground water.
                         </p>
                        
@@ -36,7 +36,7 @@ return(
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 p-4 pt-8">  
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Agriculture Studies</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-justify text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Irrigation monitoring and management, command area mapping. Land cover and land degradation mapping. 
                         </p> 
                     </div>
@@ -62,7 +62,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-4xl font-extralight md:text-5xl lg:text-6xl text-center">Urban Studies</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-justify text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Urban water logging. Urban expansion. Site suitability studies. Water distribution system analysis and planning. Digitization and multi-layer map making.
                         </p>
                     </div>
@@ -83,7 +83,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Forestry and Ecology</h2>
-                        <p className="text-xl font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
                         Forest type classification. Forest density classification. Habitat suitability Map. Forest fire spread Modelling. Environmental Impact Assessment, EIA studies.
                         </p>
                        
@@ -92,7 +92,7 @@ return(
 
                 <div className="flex items-center justify-center my-8">
                     <div className="border-t border-gray-300 flex-grow"></div>
-                    <p className="px-4 text-2xl md:text-5xl font-extralight">DISASTER MANAGEMENT</p>
+                    <p className="px-4 text-2xl text-justify md:text-5xl font-extralight">DISASTER MANAGEMENT</p>
                     <div className="border-t border-gray-300 flex-grow"></div>
                 </div>
                 
@@ -100,7 +100,7 @@ return(
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 p-4 pt-8">  
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Disaster Management</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Flood Risk assessment and mitigation strategies. Forest fire mapping and prediction. Landslide risk zonation. Drought prediction and damage assessment.
                         </p> 
                     </div>
@@ -126,7 +126,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-4xl font-extralight md:text-5xl lg:text-6xl text-center">Climatology</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Numerical modelling of rainfall. Cloudburst prediction. Climate change and climate variability studies.
                         </p>
                     </div>
@@ -145,7 +145,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Energy Sector</h2>
-                        <p className="text-xl font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed text-center">
                         Use of remote sensing and GIS in solar energy. GIS and bioenergy. GIS for wind power. 3D solar rooftop potential estimation. Terrain suitability and stability for proposed sits. 
                         </p>
                        
@@ -162,7 +162,7 @@ return(
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 p-4 pt-8">  
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Health GIS</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Mapping and Management of Health Infrastructure. Geospatially studying the spread of any infection. Medical Resources allocation and management. 
                         </p> 
                     </div>
@@ -188,7 +188,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-4xl font-extralight md:text-5xl lg:text-6xl text-center">Capacity Building Cell</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Workshops for Professionals like IFS and CWC officers. Professional course of Remote Sensing and GIS in Engineering Colleges. 
                         </p>
                     </div>
@@ -209,7 +209,7 @@ return(
                     />
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-2xl font-extralight md:text-5xl lg:text-6xl text-center">Photogrammetry</h2>
-                        <p className="text-xl font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed">
+                        <p className="text-xl text-justify font-extralight md:text-lg lg:text-2xl px-6 pt-4 leading-relaxed">
                         Description of the new service offered, highlighting its benefits and applications. 
                         </p>
                        
@@ -226,7 +226,7 @@ return(
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 p-4 pt-8">  
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <h2 className="text-xl font-extralight md:text-5xl lg:text-6xl text-center">Geographic Information System</h2>
-                        <p className="text-xl md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
+                        <p className="text-xl text-justify md:text-2xl lg:text-2xl font-extralight px-6 pt-4 leading-relaxed text-center">
                         Description of the new service offered, highlighting its benefits and applications. 
                         </p> 
                     </div>

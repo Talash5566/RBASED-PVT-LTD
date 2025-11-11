@@ -18,7 +18,7 @@ type FormData = {
 
 export default function MultiStepForm() {
   const [step, setStep] = useState(1);
-  const totalSteps = 6;
+  const totalSteps = 5;
   const [formData, setFormData] = useState<FormData>({
     vehicles_assets: "",
     industry: "",
@@ -97,30 +97,53 @@ export default function MultiStepForm() {
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     const requiredFields = [
       "first_name",
       "last_name",
       "phone_number",
       "email",
       "company_name",
-      "privacy_policy"
+      "privacy_policy",
     ] as const;
+  
     const isValid = requiredFields.every(
-      field => formData[field] && (typeof formData[field] !== "boolean" || formData[field])
+      (field) =>
+        formData[field] &&
+        (typeof formData[field] !== "boolean" || formData[field])
     );
+  
     if (!isValid) {
       setNotification("Please fill out all fields correctly before submitting the form.");
       return;
     }
-    
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setStep(6);
-      setIsTransitioning(false);
-    }, 300);
-  };
+  
+    try {
+      const res = await fetch("/api/multistep-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      const result = await res.json();
+  
+      if (result.success) {
+        setNotification("✅ Form submitted successfully!");
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setStep(5); // success page
+          setIsTransitioning(false);
+        }, 300);
+      } else {
+        setNotification("❌ " + result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      setNotification("⚠️ Something went wrong! Please try again.");
+    }
+  };  
 
   const renderOption = (val: string, selectedVal: string, field: keyof FormData, iconClass: string) => (
     <div
@@ -164,29 +187,6 @@ export default function MultiStepForm() {
         <div className="min-h-[400px] flex items-center justify-center">
           <div className={`w-full h-full transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
             {step === 1 && (
-              <div onClick={nextStep}>
-                <h2 className="text-xl font-bold mb-6 text-center text-white">START TO REGISTER</h2>
-                <div className="flex flex-wrap justify-center gap-4 mb-8">
-                  {[
-                    ["STARTED", "mdi-account"],
-                  ].map(([val, icon]) => (
-                    <div
-                      key={val}
-                      className="cursor-pointer px-6 py-4 rounded-lg border text-center font-medium flex flex-col items-center gap-2 w-32 h-32 justify-center transform transition-all duration-200 bg-indigo-600 text-white border-indigo-600 scale-105"
-                      onClick={() => handleOptionClick("vehicles_assets", val)}
-                    >
-                      <i className={`mdi ${icon} text-3xl`} />
-                      <span>{val}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-end mt-8">
-                  
-                </div>
-              </div>
-            )}
-
-            {step === 2 && (
               <div>
                 <h2 className="text-xl font-bold mb-6 text-center text-white">What industry is your business in?</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8 justify-items-center">
@@ -204,14 +204,13 @@ export default function MultiStepForm() {
                     ["Capacity Building Cell","mdi-map"]
                   ].map(([val, icon]) => renderOption(val, formData.industry, "industry", icon))}
                 </div>
-                <div className="flex justify-between mt-8">
-                  <button type="button" className="border border-indigo-500 text-indigo-400 hover:bg-gray-800 py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200" onClick={prevStep}>Back</button>
+                <div className="flex justify-center mt-8">
                   <button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1" onClick={nextStep}>Next</button>
                 </div>
               </div>
             )}
 
-            {step === 3 && (
+            {step === 2 && (
               <div>
                 <h2 className="text-xl font-bold mb-6 text-center text-white">What services are you interested in?</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8 justify-items-center">
@@ -232,7 +231,7 @@ export default function MultiStepForm() {
               </div>
             )}
 
-            {step === 4 && (
+            {step === 3 && (
               <div>
                 <h2 className="text-xl font-bold mb-6 text-center text-white">How would you prefer to be contacted?</h2>
                 <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -250,7 +249,7 @@ export default function MultiStepForm() {
               </div>
             )}
 
-            {step === 5 && (
+            {step === 4 && (
               <div>
                 <h2 className="text-xl font-bold mb-6 text-center text-white">Tell us about yourself</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -355,7 +354,7 @@ export default function MultiStepForm() {
               </div>
             )}
 
-            {step === 6 && (
+            {step === 5 && (
               <div className="text-center py-12">
                 <div className="text-5xl text-green-500 mb-6 animate-bounce">
                   <i className="mdi mdi-check-circle"></i>

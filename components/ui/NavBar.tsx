@@ -60,29 +60,7 @@ export function Navbar() {
               ))}
             </ul>
 
-            <div className="pl-6 border-l border-gray-700 flex items-center space-x-4">
-              {token || session?.user ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    localStorage.removeItem("token")
-                    signOut()
-                  }}
-                >
-                  Logout
-                </Button>
-              ) : (
-                <>
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="/signup">Signup</Link>
-                  </Button>
-                </>
-              )}
-            </div>
+           
           </div>
 
           {/* Mobile menu toggle */}
@@ -128,29 +106,7 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="pt-6 mt-6 border-t border-gray-700 space-y-4">
-            {token || session?.user ? (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  localStorage.removeItem("token")
-                  signOut()
-                  setMenuOpen(false)
-                }}
-              >
-                Logout
-              </Button>
-            ) : (
-              <>
-                <Button asChild variant="outline" className="w-full" onClick={() => setMenuOpen(false)}>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild variant="outline" className="w-full" onClick={() => setMenuOpen(false)}>
-                  <Link href="/signup">Signup</Link>
-                </Button>
-              </>
-            )}
-          </div>
+
         </div>
       </div>
     </nav>
