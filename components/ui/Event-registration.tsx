@@ -103,12 +103,8 @@ const handleCheckboxChange = (name: keyof typeof formData, checked: boolean | st
     }
     
     setTimeout(() => setStatus(''), 3000); // Reset status after 3 seconds
-const user = localStorage.getItem('token');
-  if (!user) {
-    router.push("./login");
-    return alert('User not logged in , Login First'); // Return alert while redirecting
+ 
   }
-}
 
   // Step 1: Personal Details
   const renderPersonalDetailsStep = () => (
