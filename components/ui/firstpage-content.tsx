@@ -6,7 +6,7 @@ export default function PremiumContent() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
-  const autoPlayRef = useRef<NodeJS.Timeout>();
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   const features = [
     {
