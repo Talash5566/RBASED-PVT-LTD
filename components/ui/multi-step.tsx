@@ -119,7 +119,14 @@ export default function MultiStepForm() {
       const res = await fetch("/api/multistep-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          summary: `
+          Industry: ${formData.industry}
+          Services Interested In: ${formData.interests}
+          Preferred Contact Method: ${formData.contact_method}
+          `
+        }),
       });
   
       const result = await res.json();
