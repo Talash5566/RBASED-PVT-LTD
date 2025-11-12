@@ -34,6 +34,8 @@ export default function MultiStepForm() {
   });
   const [notification, setNotification] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (notification) {
@@ -59,23 +61,11 @@ export default function MultiStepForm() {
 
   const nextStep = () => {
     const requiredFields: Record<number, keyof FormData> = {
-      // Remove step 1 validation by removing its entry
-      2: "industry",
-      3: "interests",
-      4: "contact_method"
+      1: "industry", // Step 1 is now mandatory
+      2: "interests",
+      3: "contact_method"
     };
     const currentField = requiredFields[step];
-    
-    // Auto-set the vehicles_assets field when moving from step 1
-    if (step === 1) {
-      setFormData(prev => ({ ...prev, vehicles_assets: "STARTED" }));
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setStep(prev => prev + 1);
-        setIsTransitioning(false);
-      }, 300);
-      return;
-    }
     
     if (currentField && !formData[currentField]) {
       setNotification("Please select an option before proceeding.");
@@ -99,7 +89,9 @@ export default function MultiStepForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+    setIsSubmitting(true);
+    setSubmitStatus("Submitting your form...");
+
     const requiredFields = [
       "first_name",
       "last_name",
@@ -108,40 +100,54 @@ export default function MultiStepForm() {
       "company_name",
       "privacy_policy",
     ] as const;
-  
+
     const isValid = requiredFields.every(
       (field) =>
         formData[field] &&
         (typeof formData[field] !== "boolean" || formData[field])
     );
-  
+
     if (!isValid) {
       setNotification("Please fill out all fields correctly before submitting the form.");
+      setIsSubmitting(false);
+      setSubmitStatus(null);
       return;
     }
-  
+
     try {
+      // Prepare data with email including selected options
+      const submissionData = {
+        ...formData,
+        email: `${formData.email} [Industry: ${formData.industry || 'Not selected'} | Services: ${formData.interests || 'Not selected'} | Contact: ${formData.contact_method || 'Not selected'}]`
+      };
+
       const res = await fetch("/api/multistep-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       });
-  
+
       const result = await res.json();
-  
+
       if (result.success) {
+        setSubmitStatus("✅ Form submitted successfully!");
         setNotification("✅ Form submitted successfully!");
         setIsTransitioning(true);
         setTimeout(() => {
           setStep(5); // success page
           setIsTransitioning(false);
-        }, 300);
+          setIsSubmitting(false);
+        }, 1500);
       } else {
+        setSubmitStatus("❌ Failed to submit form");
         setNotification("❌ " + result.message);
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error(error);
+      setSubmitStatus("❌ Network error");
       setNotification("⚠️ Something went wrong! Please try again.");
+      setIsSubmitting(false);
     }
   };  
 
@@ -205,7 +211,18 @@ export default function MultiStepForm() {
                   ].map(([val, icon]) => renderOption(val, formData.industry, "industry", icon))}
                 </div>
                 <div className="flex justify-center mt-8">
-                  <button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1" onClick={nextStep}>Next</button>
+                  <button 
+                    type="button" 
+                    className={`py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 transform hover:-translate-y-1 ${
+                      formData.industry 
+                        ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg" 
+                        : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    }`} 
+                    onClick={nextStep}
+                    disabled={!formData.industry}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             )}
@@ -226,7 +243,18 @@ export default function MultiStepForm() {
                 <p className="text-gray-400 text-center mb-6 text-sm">Select multiple options if needed</p>
                 <div className="flex justify-between mt-8">
                   <button type="button" className="border border-indigo-500 text-indigo-400 hover:bg-gray-800 py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200" onClick={prevStep}>Back</button>
-                  <button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1" onClick={nextStep}>Next</button>
+                  <button 
+                    type="button" 
+                    className={`py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 transform hover:-translate-y-1 ${
+                      formData.interests 
+                        ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg" 
+                        : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    }`} 
+                    onClick={nextStep}
+                    disabled={!formData.interests}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             )}
@@ -244,7 +272,18 @@ export default function MultiStepForm() {
                 </div>
                 <div className="flex justify-between mt-8">
                   <button type="button" className="border border-indigo-500 text-indigo-400 hover:bg-gray-800 py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200" onClick={prevStep}>Back</button>
-                  <button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1" onClick={nextStep}>Next</button>
+                  <button 
+                    type="button" 
+                    className={`py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 transform hover:-translate-y-1 ${
+                      formData.contact_method 
+                        ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg" 
+                        : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    }`} 
+                    onClick={nextStep}
+                    disabled={!formData.contact_method}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             )}
@@ -347,9 +386,40 @@ export default function MultiStepForm() {
                     </label>
                   </div>
                 </div>
-                <div className="flex justify-between mt-8">
-                  <button type="button" className="border border-indigo-500 text-indigo-400 hover:bg-gray-800 py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200" onClick={prevStep}>Back</button>
-                  <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1">Submit</button>
+
+                {/* Submit Status - Moved right above the submit button */}
+                {submitStatus && (
+                  <div className={`p-3 rounded mb-6 text-center border animate-fadeIn ${
+                    submitStatus.includes("✅") 
+                      ? "bg-green-900 text-white border-green-700" 
+                      : submitStatus.includes("❌")
+                      ? "bg-red-900 text-white border-red-700"
+                      : "bg-blue-900 text-white border-blue-700"
+                  }`}>
+                    {submitStatus}
+                  </div>
+                )}
+
+                <div className="flex justify-between mt-4">
+                  <button 
+                    type="button" 
+                    className="border border-indigo-500 text-indigo-400 hover:bg-gray-800 py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200"
+                    onClick={prevStep}
+                    disabled={isSubmitting}
+                  >
+                    Back
+                  </button>
+                  <button 
+                    type="submit" 
+                    className={`py-2 px-8 min-w-[120px] rounded-lg transition-all duration-200 transform hover:-translate-y-1 ${
+                      isSubmitting 
+                        ? "bg-gray-600 text-gray-400 cursor-not-allowed" 
+                        : "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg"
+                    }`}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </button>
                 </div>
               </div>
             )}
@@ -365,7 +435,6 @@ export default function MultiStepForm() {
                   <h3 className="text-lg font-semibold text-indigo-400 mb-3">Summary of your submission:</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                     <div>
-                      <p className="text-gray-400">Employees: <span className="text-white">{formData.vehicles_assets}</span></p>
                       <p className="text-gray-400">Industry: <span className="text-white">{formData.industry}</span></p>
                       <p className="text-gray-400">Services: <span className="text-white">{formData.interests}</span></p>
                     </div>
@@ -398,6 +467,7 @@ export default function MultiStepForm() {
                           privacy_policy: false
                         });
                         setIsTransitioning(false);
+                        setSubmitStatus(null);
                       }, 300);
                     }}
                   >
