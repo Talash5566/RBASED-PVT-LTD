@@ -58,36 +58,31 @@ export default function MultiStepForm() {
     formData[field].toString().split(",").includes(value);
 
   const nextStep = () => {
-    const requiredFields: Record<number, keyof FormData> = {
-      // Remove step 1 validation by removing its entry
-      2: "industry",
-      3: "interests",
-      4: "contact_method"
-    };
-    const currentField = requiredFields[step];
-    
-    // Auto-set the vehicles_assets field when moving from step 1
-    if (step === 1) {
-      setFormData(prev => ({ ...prev, vehicles_assets: "STARTED" }));
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setStep(prev => prev + 1);
-        setIsTransitioning(false);
-      }, 300);
+    // Step 1 validation
+    if (step === 1 && !formData.industry) {
+      setNotification("Please select an industry before proceeding.");
       return;
     }
-    
+  
+    // Step 2–4 validations
+    const requiredFields: Record<number, keyof FormData> = {
+      2: "interests",
+      3: "contact_method"
+    };
+    const currentField = requiredFields[step];
+  
     if (currentField && !formData[currentField]) {
       setNotification("Please select an option before proceeding.");
       return;
     }
-    
+  
     setIsTransitioning(true);
     setTimeout(() => {
       setStep(prev => prev + 1);
       setIsTransitioning(false);
     }, 300);
   };
+  
 
   const prevStep = () => {
     setIsTransitioning(true);
