@@ -275,14 +275,7 @@ export default function PremiumVideoCard({
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
               {/* Image Badge */}
-              <motion.div
-                className="absolute top-4 left-4 px-3 py-1 bg-gradient-to-r from-gray-700 to-gray-900 rounded-full text-white text-xs font-bold uppercase tracking-wider shadow-lg border border-gray-600"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                Image
-              </motion.div>
+             
 
               {/* View Indicator */}
               <motion.div
