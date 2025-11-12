@@ -18,22 +18,20 @@ export default function ContactCard() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('Sending...');
-
-    const res = await fetch('/api/send-email', {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
     
-
-    if (res.ok) {
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error('Failed to submit');
+      
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', companyName: '', message: '' });
-    } else {
-      const error = await res.json();
-      setStatus(`Error: ${error.error}`);
+    } catch (err) {
+      console.error(err);
+      setStatus('Error sending message.');
     }
   };
 
